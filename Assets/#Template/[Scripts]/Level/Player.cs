@@ -1,17 +1,21 @@
 ﻿using DancingLineFanmade.Trigger;
 using DancingLineFanmade.UI;
 using DG.Tweening;
+using Photon.Pun;
+using Photon.Pun.UtilityScripts;
 using Sirenix.OdinInspector;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace DancingLineFanmade.Level
 {
     [DisallowMultipleComponent, RequireComponent(typeof(BoxCollider), typeof(Rigidbody))]
-    public class Player : MonoBehaviour
+    public class Player : MonoBehaviourPunCallbacks
     {
         private Transform selfTransform;
 
@@ -27,6 +31,10 @@ namespace DancingLineFanmade.Level
 
         [Title("Data")]
         [Required("需要加载关卡文件")] public LevelData levelData;
+
+        [Title("Multiplayer")]
+        public bool isMultiplayer = true;
+        public Text countdownText;
 
         [Title("Settings")]
         public Camera sceneCamera;
@@ -140,6 +148,8 @@ namespace DancingLineFanmade.Level
             Instantiate(uiPrefab);
             startPage = Instantiate(startPrefab).GetComponent<StartPage>();
             if (!LoadingPage.Instance) DontDestroyOnLoad(Instantiate(loadingPrefab));
+
+            StartCoroutine(CountDownStartGame());
         }
 
         private void Update()
@@ -186,23 +196,12 @@ namespace DancingLineFanmade.Level
             {
                 switch (LevelManager.GameState)
                 {
-                    case GameStatus.Waiting:
-                        if (LevelManager.Clicked && !Falling)
-                        {
-                            LevelManager.GameState = GameStatus.Playing;
-                            if (!track) track = AudioManager.PlayClip(levelData.soundTrack, 1f); else track.Play();
-                            if (playOnStartAnimators != null) foreach (Animator animator in playOnStartAnimators) animator.speed = 1f;
-                            foreach (PlayAnimator a in FindObjectsOfType<PlayAnimator>(true)) foreach (SingleAnimator s in a.animators) if (s.played) s.PlayAnimator();
-                            foreach (FakePlayer f in FindObjectsOfType<FakePlayer>(true)) if (f.playing) f.state = FakePlayerState.Moving;
-                            CreateTail();
-                            if (startPage)
-                            {
-                                startPage.Hide();
-                                startPage = null;
-                            }
-                        }
+                    case GameStatus.Revived:
+                        if (LevelManager.Clicked)
+                            StartGame();
                         break;
                     case GameStatus.Playing: if (LevelManager.Clicked && !Falling) Turn(); break;
+                    case GameStatus.Completed: trackProgress = 100; break;
                 }
             }
             if (LevelManager.GameState == GameStatus.Playing || LevelManager.GameState == GameStatus.Moving)
@@ -227,6 +226,35 @@ namespace DancingLineFanmade.Level
                 }
             }
             if (LevelManager.GameState == GameStatus.Playing) trackProgress = track ? (int)(AudioManager.Progress * 100) : 0;
+
+            if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("GemCount"))
+            {
+                PhotonNetwork.LocalPlayer.CustomProperties["GemCount"] = blockCount;
+            }
+            else
+            {
+                PhotonNetwork.LocalPlayer.CustomProperties.Add("GemCount", blockCount);
+            }
+
+            if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Percentage"))
+            {
+                PhotonNetwork.LocalPlayer.CustomProperties["Percentage"] = trackProgress;
+            }
+            else
+            {
+                PhotonNetwork.LocalPlayer.CustomProperties.Add("Percentage", trackProgress);
+            }
+
+            if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Checkpoint"))
+            {
+                PhotonNetwork.LocalPlayer.CustomProperties["Checkpoint"] = checkpoints.Count;
+            }
+            else
+            {
+                PhotonNetwork.LocalPlayer.CustomProperties.Add("Checkpoint", checkpoints.Count);
+            }
+
+            PhotonNetwork.LocalPlayer.SetCustomProperties(PhotonNetwork.LocalPlayer.CustomProperties);
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -274,6 +302,33 @@ namespace DancingLineFanmade.Level
                 tailPool.Add(tail);
             }
         }
+        public void StartGame()
+        {
+            LevelManager.GameState = GameStatus.Playing;
+            if (!track) track = AudioManager.PlayClip(levelData.soundTrack, 1f); else track.Play();
+            if (playOnStartAnimators != null) foreach (Animator animator in playOnStartAnimators) animator.speed = 1f;
+            foreach (PlayAnimator a in FindObjectsOfType<PlayAnimator>(true)) foreach (SingleAnimator s in a.animators) if (s.played) s.PlayAnimator();
+            foreach (FakePlayer f in FindObjectsOfType<FakePlayer>(true)) if (f.playing) f.state = FakePlayerState.Moving;
+            CreateTail();
+            if (startPage)
+            {
+                startPage.Hide();
+                startPage = null;
+            }
+        }
+
+        IEnumerator CountDownStartGame()
+        {
+            int time = 10;
+            while (time > 0)
+            {
+                time--;
+                countdownText.text = time.ToString();
+                yield return new WaitForSeconds(1f);
+            }
+            countdownText.text = "";
+            StartGame();
+        }
 
         internal void RevivePlayer(Checkpoint checkpoint)
         {
@@ -311,28 +366,6 @@ namespace DancingLineFanmade.Level
 
             lastTime = Time.realtimeSinceStartup;
             frame = 0;
-        }
-
-        private void OnGUI()
-        {
-            GUIStyle style = new GUIStyle();
-            style.normal.textColor = debugTextColor;
-            style.fontSize = 32;
-
-            int finalFps = fps > 999f ? 999 : (int)fps;
-            if (debug)
-            {
-                GUI.Label(new Rect(10, 10, 120, 50), "帧数：" + finalFps, style);
-                GUI.Label(new Rect(10, 40, 120, 50), "游戏进度：" + trackProgress + "%", style);
-                GUI.Label(new Rect(10, 100, 120, 50), "线头位置：" + selfTransform.localPosition, style);
-                GUI.Label(new Rect(10, 130, 120, 50), "线头朝向：" + selfTransform.localEulerAngles, style);
-                GUI.Label(new Rect(10, 160, 120, 50), "方块数量：" + blockCount + "/10", style);
-                GUI.Label(new Rect(10, 190, 120, 50), "相机位置：" + CameraFollower.Instance.rotator.localPosition, style);
-                GUI.Label(new Rect(10, 220, 120, 50), "相机旋转：" + CameraFollower.Instance.rotator.localEulerAngles, style);
-                GUI.Label(new Rect(10, 250, 120, 50), "相机缩放：" + CameraFollower.Instance.scale.localScale, style);
-                GUI.Label(new Rect(10, 280, 120, 50), "相机视场：" + sceneCamera.fieldOfView, style);
-                GUI.Label(new Rect(10, 310, 120, 50), "当前倍速：" + Time.timeScale, style);
-            }
         }
 #endif
 

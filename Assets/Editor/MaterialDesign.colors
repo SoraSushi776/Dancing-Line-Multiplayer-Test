@@ -1,0 +1,526 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 1
+  m_Script: {fileID: 12323, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: MaterialDesign
+  m_EditorClassIdentifier: 
+  m_Presets:
+  - m_Name: Red-A700
+    m_Color: {r: 0.835294, g: 0, b: 0, a: 1}
+  - m_Name: Red-A400
+    m_Color: {r: 1, g: 0.090196, b: 0.266667, a: 1}
+  - m_Name: Red-A200
+    m_Color: {r: 1, g: 0.321569, b: 0.321569, a: 1}
+  - m_Name: Red-A100
+    m_Color: {r: 1, g: 0.541176, b: 0.501961, a: 1}
+  - m_Name: Red-50
+    m_Color: {r: 1, g: 0.921569, b: 0.933333, a: 1}
+  - m_Name: Red-100
+    m_Color: {r: 1, g: 0.803922, b: 0.823529, a: 1}
+  - m_Name: Red-200
+    m_Color: {r: 0.937255, g: 0.603922, b: 0.603922, a: 1}
+  - m_Name: Red-300
+    m_Color: {r: 0.898039, g: 0.45098, b: 0.45098, a: 1}
+  - m_Name: Red-400
+    m_Color: {r: 0.937255, g: 0.32549, b: 0.313725, a: 1}
+  - m_Name: Red-500
+    m_Color: {r: 0.956863, g: 0.262745, b: 0.211765, a: 1}
+  - m_Name: Red-600
+    m_Color: {r: 0.898039, g: 0.223529, b: 0.207843, a: 1}
+  - m_Name: Red-700
+    m_Color: {r: 0.827451, g: 0.184314, b: 0.184314, a: 1}
+  - m_Name: Red-800
+    m_Color: {r: 0.776471, g: 0.156863, b: 0.156863, a: 1}
+  - m_Name: Red-900
+    m_Color: {r: 0.717647, g: 0.109804, b: 0.109804, a: 1}
+  - m_Name: Pink-A700
+    m_Color: {r: 0.772549, g: 0.066667, b: 0.384314, a: 1}
+  - m_Name: Pink-A400
+    m_Color: {r: 0.960784, g: 0, b: 0.341176, a: 1}
+  - m_Name: Pink-A200
+    m_Color: {r: 1, g: 0.25098, b: 0.505882, a: 1}
+  - m_Name: Pink-A100
+    m_Color: {r: 1, g: 0.501961, b: 0.670588, a: 1}
+  - m_Name: Pink-50
+    m_Color: {r: 0.988235, g: 0.894118, b: 0.92549, a: 1}
+  - m_Name: Pink-100
+    m_Color: {r: 0.972549, g: 0.733333, b: 0.815686, a: 1}
+  - m_Name: Pink-200
+    m_Color: {r: 0.956863, g: 0.560784, b: 0.694118, a: 1}
+  - m_Name: Pink-300
+    m_Color: {r: 0.941176, g: 0.384314, b: 0.572549, a: 1}
+  - m_Name: Pink-400
+    m_Color: {r: 0.92549, g: 0.25098, b: 0.478431, a: 1}
+  - m_Name: Pink-500
+    m_Color: {r: 0.913725, g: 0.117647, b: 0.388235, a: 1}
+  - m_Name: Pink-600
+    m_Color: {r: 0.847059, g: 0.105882, b: 0.376471, a: 1}
+  - m_Name: Pink-700
+    m_Color: {r: 0.760784, g: 0.094118, b: 0.356863, a: 1}
+  - m_Name: Pink-800
+    m_Color: {r: 0.678431, g: 0.078431, b: 0.341176, a: 1}
+  - m_Name: Pink-900
+    m_Color: {r: 0.533333, g: 0.054902, b: 0.309804, a: 1}
+  - m_Name: Purple-A700
+    m_Color: {r: 0.666667, g: 0, b: 1, a: 1}
+  - m_Name: Purple-A400
+    m_Color: {r: 0.835294, g: 0, b: 0.976471, a: 1}
+  - m_Name: Purple-A200
+    m_Color: {r: 0.878431, g: 0.25098, b: 0.984314, a: 1}
+  - m_Name: Purple-A100
+    m_Color: {r: 0.917647, g: 0.501961, b: 0.988235, a: 1}
+  - m_Name: Purple-50
+    m_Color: {r: 0.952941, g: 0.898039, b: 0.960784, a: 1}
+  - m_Name: Purple-100
+    m_Color: {r: 0.882353, g: 0.745098, b: 0.905882, a: 1}
+  - m_Name: Purple-200
+    m_Color: {r: 0.807843, g: 0.576471, b: 0.847059, a: 1}
+  - m_Name: Purple-300
+    m_Color: {r: 0.729412, g: 0.407843, b: 0.784314, a: 1}
+  - m_Name: Purple-400
+    m_Color: {r: 0.670588, g: 0.278431, b: 0.737255, a: 1}
+  - m_Name: Purple-500
+    m_Color: {r: 0.611765, g: 0.152941, b: 0.690196, a: 1}
+  - m_Name: Purple-600
+    m_Color: {r: 0.556863, g: 0.141176, b: 0.666667, a: 1}
+  - m_Name: Purple-700
+    m_Color: {r: 0.482353, g: 0.121569, b: 0.635294, a: 1}
+  - m_Name: Purple-800
+    m_Color: {r: 0.415686, g: 0.105882, b: 0.603922, a: 1}
+  - m_Name: Purple-900
+    m_Color: {r: 0.290196, g: 0.078431, b: 0.54902, a: 1}
+  - m_Name: DeepPurple-A700
+    m_Color: {r: 0.384314, g: 0, b: 0.917647, a: 1}
+  - m_Name: DeepPurple-A400
+    m_Color: {r: 0.396078, g: 0.121569, b: 1, a: 1}
+  - m_Name: DeepPurple-A200
+    m_Color: {r: 0.486275, g: 0.301961, b: 1, a: 1}
+  - m_Name: DeepPurple-A100
+    m_Color: {r: 0.701961, g: 0.533333, b: 1, a: 1}
+  - m_Name: DeepPurple-50
+    m_Color: {r: 0.929412, g: 0.905882, b: 0.964706, a: 1}
+  - m_Name: DeepPurple-100
+    m_Color: {r: 0.819608, g: 0.768627, b: 0.913725, a: 1}
+  - m_Name: DeepPurple-200
+    m_Color: {r: 0.701961, g: 0.615686, b: 0.858824, a: 1}
+  - m_Name: DeepPurple-300
+    m_Color: {r: 0.584314, g: 0.458824, b: 0.803922, a: 1}
+  - m_Name: DeepPurple-400
+    m_Color: {r: 0.494118, g: 0.341176, b: 0.760784, a: 1}
+  - m_Name: DeepPurple-500
+    m_Color: {r: 0.403922, g: 0.227451, b: 0.717647, a: 1}
+  - m_Name: DeepPurple-600
+    m_Color: {r: 0.368627, g: 0.207843, b: 0.694118, a: 1}
+  - m_Name: DeepPurple-700
+    m_Color: {r: 0.317647, g: 0.176471, b: 0.658824, a: 1}
+  - m_Name: DeepPurple-800
+    m_Color: {r: 0.270588, g: 0.152941, b: 0.627451, a: 1}
+  - m_Name: DeepPurple-900
+    m_Color: {r: 0.192157, g: 0.105882, b: 0.572549, a: 1}
+  - m_Name: Indigo-A700
+    m_Color: {r: 0.188235, g: 0.309804, b: 0.996078, a: 1}
+  - m_Name: Indigo-A400
+    m_Color: {r: 0.239216, g: 0.352941, b: 0.996078, a: 1}
+  - m_Name: Indigo-A200
+    m_Color: {r: 0.32549, g: 0.427451, b: 0.996078, a: 1}
+  - m_Name: Indigo-A100
+    m_Color: {r: 0.54902, g: 0.619608, b: 1, a: 1}
+  - m_Name: Indigo-50
+    m_Color: {r: 0.909804, g: 0.917647, b: 0.964706, a: 1}
+  - m_Name: Indigo-100
+    m_Color: {r: 0.772549, g: 0.792157, b: 0.913725, a: 1}
+  - m_Name: Indigo-200
+    m_Color: {r: 0.623529, g: 0.658824, b: 0.854902, a: 1}
+  - m_Name: Indigo-300
+    m_Color: {r: 0.47451, g: 0.52549, b: 0.796078, a: 1}
+  - m_Name: Indigo-400
+    m_Color: {r: 0.360784, g: 0.419608, b: 0.752941, a: 1}
+  - m_Name: Indigo-500
+    m_Color: {r: 0.247059, g: 0.317647, b: 0.709804, a: 1}
+  - m_Name: Indigo-600
+    m_Color: {r: 0.223529, g: 0.286275, b: 0.670588, a: 1}
+  - m_Name: Indigo-700
+    m_Color: {r: 0.188235, g: 0.247059, b: 0.623529, a: 1}
+  - m_Name: Indigo-800
+    m_Color: {r: 0.156863, g: 0.207843, b: 0.576471, a: 1}
+  - m_Name: Indigo-900
+    m_Color: {r: 0.101961, g: 0.137255, b: 0.494118, a: 1}
+  - m_Name: Blue-A700
+    m_Color: {r: 0.160784, g: 0.384314, b: 1, a: 1}
+  - m_Name: Blue-A400
+    m_Color: {r: 0.160784, g: 0.47451, b: 1, a: 1}
+  - m_Name: Blue-A200
+    m_Color: {r: 0.266667, g: 0.541176, b: 1, a: 1}
+  - m_Name: Blue-A100
+    m_Color: {r: 0.509804, g: 0.694118, b: 1, a: 1}
+  - m_Name: Blue-50
+    m_Color: {r: 0.890196, g: 0.94902, b: 0.992157, a: 1}
+  - m_Name: Blue-100
+    m_Color: {r: 0.733333, g: 0.870588, b: 0.984314, a: 1}
+  - m_Name: Blue-200
+    m_Color: {r: 0.564706, g: 0.792157, b: 0.976471, a: 1}
+  - m_Name: Blue-300
+    m_Color: {r: 0.392157, g: 0.709804, b: 0.964706, a: 1}
+  - m_Name: Blue-400
+    m_Color: {r: 0.258824, g: 0.647059, b: 0.960784, a: 1}
+  - m_Name: Blue-500
+    m_Color: {r: 0.129412, g: 0.588235, b: 0.952941, a: 1}
+  - m_Name: Blue-600
+    m_Color: {r: 0.117647, g: 0.533333, b: 0.898039, a: 1}
+  - m_Name: Blue-700
+    m_Color: {r: 0.098039, g: 0.462745, b: 0.823529, a: 1}
+  - m_Name: Blue-800
+    m_Color: {r: 0.082353, g: 0.396078, b: 0.752941, a: 1}
+  - m_Name: Blue-900
+    m_Color: {r: 0.05098, g: 0.278431, b: 0.631373, a: 1}
+  - m_Name: LightBlue-A700
+    m_Color: {r: 0, g: 0.568627, b: 0.917647, a: 1}
+  - m_Name: LightBlue-A400
+    m_Color: {r: 0, g: 0.690196, b: 1, a: 1}
+  - m_Name: LightBlue-A200
+    m_Color: {r: 0.25098, g: 0.768627, b: 1, a: 1}
+  - m_Name: LightBlue-A100
+    m_Color: {r: 0.501961, g: 0.847059, b: 1, a: 1}
+  - m_Name: LightBlue-50
+    m_Color: {r: 0.882353, g: 0.960784, b: 0.996078, a: 1}
+  - m_Name: LightBlue-100
+    m_Color: {r: 0.701961, g: 0.898039, b: 0.988235, a: 1}
+  - m_Name: LightBlue-200
+    m_Color: {r: 0.505882, g: 0.831373, b: 0.980392, a: 1}
+  - m_Name: LightBlue-300
+    m_Color: {r: 0.309804, g: 0.764706, b: 0.968627, a: 1}
+  - m_Name: LightBlue-400
+    m_Color: {r: 0.160784, g: 0.713725, b: 0.964706, a: 1}
+  - m_Name: LightBlue-500
+    m_Color: {r: 0.011765, g: 0.662745, b: 0.956863, a: 1}
+  - m_Name: LightBlue-600
+    m_Color: {r: 0.011765, g: 0.607843, b: 0.898039, a: 1}
+  - m_Name: LightBlue-700
+    m_Color: {r: 0.007843, g: 0.533333, b: 0.819608, a: 1}
+  - m_Name: LightBlue-800
+    m_Color: {r: 0.007843, g: 0.466667, b: 0.741176, a: 1}
+  - m_Name: LightBlue-900
+    m_Color: {r: 0.003922, g: 0.341176, b: 0.607843, a: 1}
+  - m_Name: Cyan-A700
+    m_Color: {r: 0, g: 0.721569, b: 0.831373, a: 1}
+  - m_Name: Cyan-A400
+    m_Color: {r: 0, g: 0.898039, b: 1, a: 1}
+  - m_Name: Cyan-A200
+    m_Color: {r: 0.094118, g: 1, b: 1, a: 1}
+  - m_Name: Cyan-A100
+    m_Color: {r: 0.517647, g: 1, b: 1, a: 1}
+  - m_Name: Cyan-50
+    m_Color: {r: 0.878431, g: 0.968627, b: 0.980392, a: 1}
+  - m_Name: Cyan-100
+    m_Color: {r: 0.698039, g: 0.921569, b: 0.94902, a: 1}
+  - m_Name: Cyan-200
+    m_Color: {r: 0.501961, g: 0.870588, b: 0.917647, a: 1}
+  - m_Name: Cyan-300
+    m_Color: {r: 0.301961, g: 0.815686, b: 0.882353, a: 1}
+  - m_Name: Cyan-400
+    m_Color: {r: 0.14902, g: 0.776471, b: 0.854902, a: 1}
+  - m_Name: Cyan-500
+    m_Color: {r: 0, g: 0.737255, b: 0.831373, a: 1}
+  - m_Name: Cyan-600
+    m_Color: {r: 0, g: 0.67451, b: 0.756863, a: 1}
+  - m_Name: Cyan-700
+    m_Color: {r: 0, g: 0.592157, b: 0.654902, a: 1}
+  - m_Name: Cyan-800
+    m_Color: {r: 0, g: 0.513725, b: 0.560784, a: 1}
+  - m_Name: Cyan-900
+    m_Color: {r: 0, g: 0.376471, b: 0.392157, a: 1}
+  - m_Name: Teal-A700
+    m_Color: {r: 0, g: 0.74902, b: 0.647059, a: 1}
+  - m_Name: Teal-A400
+    m_Color: {r: 0.113725, g: 0.913725, b: 0.713725, a: 1}
+  - m_Name: Teal-A200
+    m_Color: {r: 0.392157, g: 1, b: 0.854902, a: 1}
+  - m_Name: Teal-A100
+    m_Color: {r: 0.654902, g: 1, b: 0.921569, a: 1}
+  - m_Name: Teal-50
+    m_Color: {r: 0.878431, g: 0.94902, b: 0.945098, a: 1}
+  - m_Name: Teal-100
+    m_Color: {r: 0.698039, g: 0.87451, b: 0.858824, a: 1}
+  - m_Name: Teal-200
+    m_Color: {r: 0.501961, g: 0.796078, b: 0.768627, a: 1}
+  - m_Name: Teal-300
+    m_Color: {r: 0.301961, g: 0.713725, b: 0.67451, a: 1}
+  - m_Name: Teal-400
+    m_Color: {r: 0.14902, g: 0.65098, b: 0.603922, a: 1}
+  - m_Name: Teal-500
+    m_Color: {r: 0, g: 0.588235, b: 0.533333, a: 1}
+  - m_Name: Teal-600
+    m_Color: {r: 0, g: 0.537255, b: 0.482353, a: 1}
+  - m_Name: Teal-700
+    m_Color: {r: 0, g: 0.47451, b: 0.419608, a: 1}
+  - m_Name: Teal-800
+    m_Color: {r: 0, g: 0.411765, b: 0.360784, a: 1}
+  - m_Name: Teal-900
+    m_Color: {r: 0, g: 0.301961, b: 0.25098, a: 1}
+  - m_Name: Green-A700
+    m_Color: {r: 0, g: 0.784314, b: 0.32549, a: 1}
+  - m_Name: Green-A400
+    m_Color: {r: 0, g: 0.901961, b: 0.462745, a: 1}
+  - m_Name: Green-A200
+    m_Color: {r: 0.411765, g: 0.941176, b: 0.682353, a: 1}
+  - m_Name: Green-A100
+    m_Color: {r: 0.72549, g: 0.964706, b: 0.792157, a: 1}
+  - m_Name: Green-50
+    m_Color: {r: 0.909804, g: 0.960784, b: 0.913725, a: 1}
+  - m_Name: Green-100
+    m_Color: {r: 0.784314, g: 0.901961, b: 0.788235, a: 1}
+  - m_Name: Green-200
+    m_Color: {r: 0.647059, g: 0.839216, b: 0.654902, a: 1}
+  - m_Name: Green-300
+    m_Color: {r: 0.505882, g: 0.780392, b: 0.517647, a: 1}
+  - m_Name: Green-400
+    m_Color: {r: 0.4, g: 0.733333, b: 0.415686, a: 1}
+  - m_Name: Green-500
+    m_Color: {r: 0.298039, g: 0.686275, b: 0.313725, a: 1}
+  - m_Name: Green-600
+    m_Color: {r: 0.262745, g: 0.627451, b: 0.278431, a: 1}
+  - m_Name: Green-700
+    m_Color: {r: 0.219608, g: 0.556863, b: 0.235294, a: 1}
+  - m_Name: Green-800
+    m_Color: {r: 0.180392, g: 0.490196, b: 0.196078, a: 1}
+  - m_Name: Green-900
+    m_Color: {r: 0.105882, g: 0.368627, b: 0.12549, a: 1}
+  - m_Name: LightGreen-A700
+    m_Color: {r: 0.392157, g: 0.866667, b: 0.090196, a: 1}
+  - m_Name: LightGreen-A400
+    m_Color: {r: 0.462745, g: 1, b: 0.011765, a: 1}
+  - m_Name: LightGreen-A200
+    m_Color: {r: 0.698039, g: 1, b: 0.34902, a: 1}
+  - m_Name: LightGreen-A100
+    m_Color: {r: 0.8, g: 1, b: 0.564706, a: 1}
+  - m_Name: LightGreen-50
+    m_Color: {r: 0.945098, g: 0.972549, b: 0.913725, a: 1}
+  - m_Name: LightGreen-100
+    m_Color: {r: 0.862745, g: 0.929412, b: 0.784314, a: 1}
+  - m_Name: LightGreen-200
+    m_Color: {r: 0.772549, g: 0.882353, b: 0.647059, a: 1}
+  - m_Name: LightGreen-300
+    m_Color: {r: 0.682353, g: 0.835294, b: 0.505882, a: 1}
+  - m_Name: LightGreen-400
+    m_Color: {r: 0.611765, g: 0.8, b: 0.396078, a: 1}
+  - m_Name: LightGreen-500
+    m_Color: {r: 0.545098, g: 0.764706, b: 0.290196, a: 1}
+  - m_Name: LightGreen-600
+    m_Color: {r: 0.486275, g: 0.701961, b: 0.258824, a: 1}
+  - m_Name: LightGreen-700
+    m_Color: {r: 0.407843, g: 0.623529, b: 0.219608, a: 1}
+  - m_Name: LightGreen-800
+    m_Color: {r: 0.333333, g: 0.545098, b: 0.184314, a: 1}
+  - m_Name: LightGreen-900
+    m_Color: {r: 0.2, g: 0.411765, b: 0.117647, a: 1}
+  - m_Name: Lime-A700
+    m_Color: {r: 0.682353, g: 0.917647, b: 0, a: 1}
+  - m_Name: Lime-A400
+    m_Color: {r: 0.776471, g: 1, b: 0, a: 1}
+  - m_Name: Lime-A200
+    m_Color: {r: 0.933333, g: 1, b: 0.254902, a: 1}
+  - m_Name: Lime-A100
+    m_Color: {r: 0.956863, g: 1, b: 0.505882, a: 1}
+  - m_Name: Lime-50
+    m_Color: {r: 0.976471, g: 0.984314, b: 0.905882, a: 1}
+  - m_Name: Lime-100
+    m_Color: {r: 0.941176, g: 0.956863, b: 0.764706, a: 1}
+  - m_Name: Lime-200
+    m_Color: {r: 0.901961, g: 0.933333, b: 0.611765, a: 1}
+  - m_Name: Lime-300
+    m_Color: {r: 0.862745, g: 0.905882, b: 0.458824, a: 1}
+  - m_Name: Lime-400
+    m_Color: {r: 0.831373, g: 0.882353, b: 0.341176, a: 1}
+  - m_Name: Lime-500
+    m_Color: {r: 0.803922, g: 0.862745, b: 0.223529, a: 1}
+  - m_Name: Lime-600
+    m_Color: {r: 0.752941, g: 0.792157, b: 0.2, a: 1}
+  - m_Name: Lime-700
+    m_Color: {r: 0.686275, g: 0.705882, b: 0.168627, a: 1}
+  - m_Name: Lime-800
+    m_Color: {r: 0.619608, g: 0.615686, b: 0.141176, a: 1}
+  - m_Name: Lime-900
+    m_Color: {r: 0.509804, g: 0.466667, b: 0.090196, a: 1}
+  - m_Name: Yellow-A700
+    m_Color: {r: 1, g: 0.839216, b: 0, a: 1}
+  - m_Name: Yellow-A400
+    m_Color: {r: 1, g: 0.917647, b: 0, a: 1}
+  - m_Name: Yellow-A200
+    m_Color: {r: 1, g: 1, b: 0, a: 1}
+  - m_Name: Yellow-A100
+    m_Color: {r: 1, g: 1, b: 0.552941, a: 1}
+  - m_Name: Yellow-50
+    m_Color: {r: 1, g: 0.992157, b: 0.905882, a: 1}
+  - m_Name: Yellow-100
+    m_Color: {r: 1, g: 0.976471, b: 0.768627, a: 1}
+  - m_Name: Yellow-200
+    m_Color: {r: 1, g: 0.960784, b: 0.615686, a: 1}
+  - m_Name: Yellow-300
+    m_Color: {r: 1, g: 0.945098, b: 0.462745, a: 1}
+  - m_Name: Yellow-400
+    m_Color: {r: 1, g: 0.933333, b: 0.345098, a: 1}
+  - m_Name: Yellow-500
+    m_Color: {r: 1, g: 0.921569, b: 0.231373, a: 1}
+  - m_Name: Yellow-600
+    m_Color: {r: 0.992157, g: 0.847059, b: 0.207843, a: 1}
+  - m_Name: Yellow-700
+    m_Color: {r: 0.984314, g: 0.752941, b: 0.176471, a: 1}
+  - m_Name: Yellow-800
+    m_Color: {r: 0.976471, g: 0.658824, b: 0.145098, a: 1}
+  - m_Name: Yellow-900
+    m_Color: {r: 0.960784, g: 0.498039, b: 0.090196, a: 1}
+  - m_Name: Amber-A700
+    m_Color: {r: 1, g: 0.670588, b: 0, a: 1}
+  - m_Name: Amber-A400
+    m_Color: {r: 1, g: 0.768627, b: 0, a: 1}
+  - m_Name: Amber-A200
+    m_Color: {r: 1, g: 0.843137, b: 0.25098, a: 1}
+  - m_Name: Amber-A100
+    m_Color: {r: 1, g: 0.898039, b: 0.498039, a: 1}
+  - m_Name: Amber-50
+    m_Color: {r: 1, g: 0.972549, b: 0.882353, a: 1}
+  - m_Name: Amber-100
+    m_Color: {r: 1, g: 0.92549, b: 0.701961, a: 1}
+  - m_Name: Amber-200
+    m_Color: {r: 1, g: 0.878431, b: 0.509804, a: 1}
+  - m_Name: Amber-300
+    m_Color: {r: 1, g: 0.835294, b: 0.309804, a: 1}
+  - m_Name: Amber-400
+    m_Color: {r: 1, g: 0.792157, b: 0.156863, a: 1}
+  - m_Name: Amber-500
+    m_Color: {r: 1, g: 0.756863, b: 0.027451, a: 1}
+  - m_Name: Amber-600
+    m_Color: {r: 1, g: 0.701961, b: 0, a: 1}
+  - m_Name: Amber-700
+    m_Color: {r: 1, g: 0.627451, b: 0, a: 1}
+  - m_Name: Amber-800
+    m_Color: {r: 1, g: 0.560784, b: 0, a: 1}
+  - m_Name: Amber-900
+    m_Color: {r: 1, g: 0.435294, b: 0, a: 1}
+  - m_Name: Orange-A700
+    m_Color: {r: 1, g: 0.427451, b: 0, a: 1}
+  - m_Name: Orange-A400
+    m_Color: {r: 1, g: 0.568627, b: 0, a: 1}
+  - m_Name: Orange-A200
+    m_Color: {r: 1, g: 0.670588, b: 0.25098, a: 1}
+  - m_Name: Orange-A100
+    m_Color: {r: 1, g: 0.819608, b: 0.501961, a: 1}
+  - m_Name: Orange-50
+    m_Color: {r: 1, g: 0.952941, b: 0.878431, a: 1}
+  - m_Name: Orange-100
+    m_Color: {r: 1, g: 0.878431, b: 0.698039, a: 1}
+  - m_Name: Orange-200
+    m_Color: {r: 1, g: 0.8, b: 0.501961, a: 1}
+  - m_Name: Orange-300
+    m_Color: {r: 1, g: 0.717647, b: 0.301961, a: 1}
+  - m_Name: Orange-400
+    m_Color: {r: 1, g: 0.654902, b: 0.14902, a: 1}
+  - m_Name: Orange-500
+    m_Color: {r: 1, g: 0.596078, b: 0, a: 1}
+  - m_Name: Orange-600
+    m_Color: {r: 0.984314, g: 0.54902, b: 0, a: 1}
+  - m_Name: Orange-700
+    m_Color: {r: 0.960784, g: 0.486275, b: 0, a: 1}
+  - m_Name: Orange-800
+    m_Color: {r: 0.937255, g: 0.423529, b: 0, a: 1}
+  - m_Name: Orange-900
+    m_Color: {r: 0.901961, g: 0.317647, b: 0, a: 1}
+  - m_Name: DeepOrange-A700
+    m_Color: {r: 0.866667, g: 0.172549, b: 0, a: 1}
+  - m_Name: DeepOrange-A400
+    m_Color: {r: 1, g: 0.239216, b: 0, a: 1}
+  - m_Name: DeepOrange-A200
+    m_Color: {r: 1, g: 0.431373, b: 0.25098, a: 1}
+  - m_Name: DeepOrange-A100
+    m_Color: {r: 1, g: 0.619608, b: 0.501961, a: 1}
+  - m_Name: DeepOrange-50
+    m_Color: {r: 0.984314, g: 0.913725, b: 0.905882, a: 1}
+  - m_Name: DeepOrange-100
+    m_Color: {r: 1, g: 0.8, b: 0.737255, a: 1}
+  - m_Name: DeepOrange-200
+    m_Color: {r: 1, g: 0.670588, b: 0.568627, a: 1}
+  - m_Name: DeepOrange-300
+    m_Color: {r: 1, g: 0.541176, b: 0.396078, a: 1}
+  - m_Name: DeepOrange-400
+    m_Color: {r: 1, g: 0.439216, b: 0.262745, a: 1}
+  - m_Name: DeepOrange-500
+    m_Color: {r: 1, g: 0.341176, b: 0.133333, a: 1}
+  - m_Name: DeepOrange-600
+    m_Color: {r: 0.956863, g: 0.317647, b: 0.117647, a: 1}
+  - m_Name: DeepOrange-700
+    m_Color: {r: 0.901961, g: 0.290196, b: 0.098039, a: 1}
+  - m_Name: DeepOrange-800
+    m_Color: {r: 0.847059, g: 0.262745, b: 0.082353, a: 1}
+  - m_Name: DeepOrange-900
+    m_Color: {r: 0.74902, g: 0.211765, b: 0.047059, a: 1}
+  - m_Name: Brown-50
+    m_Color: {r: 0.937255, g: 0.921569, b: 0.913725, a: 1}
+  - m_Name: Brown-100
+    m_Color: {r: 0.843137, g: 0.8, b: 0.784314, a: 1}
+  - m_Name: Brown-200
+    m_Color: {r: 0.737255, g: 0.666667, b: 0.643137, a: 1}
+  - m_Name: Brown-300
+    m_Color: {r: 0.631373, g: 0.533333, b: 0.498039, a: 1}
+  - m_Name: Brown-400
+    m_Color: {r: 0.552941, g: 0.431373, b: 0.388235, a: 1}
+  - m_Name: Brown-500
+    m_Color: {r: 0.47451, g: 0.333333, b: 0.282353, a: 1}
+  - m_Name: Brown-600
+    m_Color: {r: 0.427451, g: 0.298039, b: 0.254902, a: 1}
+  - m_Name: Brown-700
+    m_Color: {r: 0.364706, g: 0.25098, b: 0.215686, a: 1}
+  - m_Name: Brown-800
+    m_Color: {r: 0.305882, g: 0.203922, b: 0.180392, a: 1}
+  - m_Name: Brown-900
+    m_Color: {r: 0.243137, g: 0.152941, b: 0.137255, a: 1}
+  - m_Name: Grey-50
+    m_Color: {r: 0.980392, g: 0.980392, b: 0.980392, a: 1}
+  - m_Name: Grey-100
+    m_Color: {r: 0.960784, g: 0.960784, b: 0.960784, a: 1}
+  - m_Name: Grey-200
+    m_Color: {r: 0.933333, g: 0.933333, b: 0.933333, a: 1}
+  - m_Name: Grey-300
+    m_Color: {r: 0.878431, g: 0.878431, b: 0.878431, a: 1}
+  - m_Name: Grey-400
+    m_Color: {r: 0.741176, g: 0.741176, b: 0.741176, a: 1}
+  - m_Name: Grey-500
+    m_Color: {r: 0.619608, g: 0.619608, b: 0.619608, a: 1}
+  - m_Name: Grey-600
+    m_Color: {r: 0.458824, g: 0.458824, b: 0.458824, a: 1}
+  - m_Name: Grey-700
+    m_Color: {r: 0.380392, g: 0.380392, b: 0.380392, a: 1}
+  - m_Name: Grey-800
+    m_Color: {r: 0.258824, g: 0.258824, b: 0.258824, a: 1}
+  - m_Name: Grey-900
+    m_Color: {r: 0.129412, g: 0.129412, b: 0.129412, a: 1}
+  - m_Name: BlueGrey-50
+    m_Color: {r: 0.92549, g: 0.937255, b: 0.945098, a: 1}
+  - m_Name: BlueGrey-100
+    m_Color: {r: 0.811765, g: 0.847059, b: 0.862745, a: 1}
+  - m_Name: BlueGrey-200
+    m_Color: {r: 0.690196, g: 0.745098, b: 0.772549, a: 1}
+  - m_Name: BlueGrey-300
+    m_Color: {r: 0.564706, g: 0.643137, b: 0.682353, a: 1}
+  - m_Name: BlueGrey-400
+    m_Color: {r: 0.470588, g: 0.564706, b: 0.611765, a: 1}
+  - m_Name: BlueGrey-500
+    m_Color: {r: 0.376471, g: 0.490196, b: 0.545098, a: 1}
+  - m_Name: BlueGrey-600
+    m_Color: {r: 0.329412, g: 0.431373, b: 0.478431, a: 1}
+  - m_Name: BlueGrey-700
+    m_Color: {r: 0.270588, g: 0.352941, b: 0.392157, a: 1}
+  - m_Name: BlueGrey-800
+    m_Color: {r: 0.215686, g: 0.278431, b: 0.309804, a: 1}
+  - m_Name: BlueGrey-900
+    m_Color: {r: 0.14902, g: 0.196078, b: 0.219608, a: 1}
+  - m_Name: White
+    m_Color: {r: 1, g: 1, b: 1, a: 1}
+  - m_Name: Black
+    m_Color: {r: 0, g: 0, b: 0, a: 1}

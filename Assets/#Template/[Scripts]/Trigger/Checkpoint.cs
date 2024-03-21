@@ -1,6 +1,7 @@
 using DancingLineFanmade.Level;
 using DancingLineFanmade.UI;
 using DG.Tweening;
+using Photon.Pun;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,6 +52,7 @@ namespace DancingLineFanmade.Trigger
         private Vector3 sceneGravity;
         private Vector3 playerFirstDirection;
         private Vector3 playerSecondDirection;
+        private bool isTriggered = false;
 
         private List<SetActive> actives = new List<SetActive>();
         private List<PlayAnimator> animators = new List<PlayAnimator>();
@@ -103,6 +105,14 @@ namespace DancingLineFanmade.Trigger
             foreach (PlayAnimator a in animators) foreach (SingleAnimator s in a.animators) if (!s.dontRevive) s.GetState();
             foreach (FakePlayer f in fakes) f.GetData();
             player.GetAnimatorProgresses();
+
+            if (isTriggered) return;
+
+            if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Checkpoint"))
+                PhotonNetwork.LocalPlayer.CustomProperties["Checkpoint"] = int.Parse(PhotonNetwork.LocalPlayer.CustomProperties["Checkpoint"].ToString()) + 1;
+            else
+                PhotonNetwork.LocalPlayer.CustomProperties.Add("Checkpoint", 1);
+            isTriggered = true;
         }
 
         internal void Revival()
@@ -115,6 +125,8 @@ namespace DancingLineFanmade.Trigger
                     LevelManager.DestroyRemain();
                     core.gameObject.SetActive(false);
                     Player.Rigidbody.isKinematic = true;
+                    PhotonNetwork.LocalPlayer.CustomProperties.Add("Checkpoint", -1);
+                    PhotonNetwork.LocalPlayer.SetCustomProperties(PhotonNetwork.LocalPlayer.CustomProperties);
                 },
                 () =>
                 {

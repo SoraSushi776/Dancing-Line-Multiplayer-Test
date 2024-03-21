@@ -25,6 +25,7 @@ namespace DancingLineFanmade.Level
         Playing,
         Moving,
         Died,
+        Revived,
         Completed
     }
 
@@ -140,7 +141,7 @@ namespace DancingLineFanmade.Level
 
         public static void DestroyRemain()
         {
-            GameState = GameStatus.Waiting;
+            GameState = GameStatus.Revived;
             trackFadeOut?.Kill();
             if (dieCubes) Object.Destroy(dieCubes);
         }
@@ -170,7 +171,7 @@ namespace DancingLineFanmade.Level
                 Touch touch = Input.GetTouch(0);
                 if (touch.phase == TouchPhase.Began)
                 {
-                    if (EventSystem.current.IsPointerOverGameObject(touch.fingerId) || CheckRaycastObjects(touch.position)) return true;
+                    if ((EventSystem.current.IsPointerOverGameObject(touch.fingerId) || CheckRaycastObjects(touch.position)) && EventSystem.current.currentSelectedGameObject.tag != "Multiplay") return true;
                     else return false;
                 }
                 else return false;
@@ -179,7 +180,12 @@ namespace DancingLineFanmade.Level
 #else
             if (Clicked)
             {
-                if (EventSystem.current.IsPointerOverGameObject() && CheckRaycastObjects(Input.mousePosition)) return true;
+                if (EventSystem.current.IsPointerOverGameObject())
+                    if (EventSystem.current.currentSelectedGameObject != null)
+                        if (EventSystem.current.currentSelectedGameObject.tag != "Multiplay" && CheckRaycastObjects(Input.mousePosition))
+                            return true;
+                        else return false;
+                    else return false;
                 else return false;
             }
             else return false;
