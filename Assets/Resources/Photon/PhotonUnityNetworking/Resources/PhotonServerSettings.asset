@@ -17,7 +17,7 @@ MonoBehaviour:
     AppIdFusion: 
     AppIdChat: d9e1bfe3-cbc5-45c1-ab42-1ec825fcae16
     AppIdVoice: 
-    AppVersion: 100
+    AppVersion: 101
     UseNameServer: 1
     FixedRegion: hk
     Server: 
@@ -27,9 +27,9 @@ MonoBehaviour:
     EnableProtocolFallback: 1
     AuthMode: 0
     EnableLobbyStatistics: 0
-    NetworkLogging: 5
+    NetworkLogging: 1
   DevRegion: hk
-  PunLogging: 2
+  PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0

@@ -2,7 +2,6 @@
 using DancingLineFanmade.UI;
 using DG.Tweening;
 using Photon.Pun;
-using Photon.Pun.UtilityScripts;
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
@@ -319,12 +318,12 @@ namespace DancingLineFanmade.Level
 
         IEnumerator CountDownStartGame()
         {
-            int time = 10;
-            while (time > 0)
+            float time = 5.1f;
+            while (time > 0.1f)
             {
-                time--;
-                countdownText.text = time.ToString();
-                yield return new WaitForSeconds(1f);
+                time -= 0.1f;
+                countdownText.text = time.ToString("F1");
+                yield return new WaitForSeconds(0.1f);
             }
             countdownText.text = "";
             StartGame();

@@ -108,10 +108,10 @@ namespace DancingLineFanmade.Trigger
 
             if (isTriggered) return;
 
-            if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Checkpoint"))
-                PhotonNetwork.LocalPlayer.CustomProperties["Checkpoint"] = int.Parse(PhotonNetwork.LocalPlayer.CustomProperties["Checkpoint"].ToString()) + 1;
-            else
-                PhotonNetwork.LocalPlayer.CustomProperties.Add("Checkpoint", 1);
+            if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("AddScore"))
+                PhotonNetwork.LocalPlayer.CustomProperties["AddScore"] = int.Parse(PhotonNetwork.LocalPlayer.CustomProperties["AddScore"].ToString()) + 1000;
+            else PhotonNetwork.LocalPlayer.CustomProperties.Add("AddScore", 1000);
+
             isTriggered = true;
         }
 
@@ -125,8 +125,6 @@ namespace DancingLineFanmade.Trigger
                     LevelManager.DestroyRemain();
                     core.gameObject.SetActive(false);
                     Player.Rigidbody.isKinematic = true;
-                    PhotonNetwork.LocalPlayer.CustomProperties.Add("Checkpoint", -1);
-                    PhotonNetwork.LocalPlayer.SetCustomProperties(PhotonNetwork.LocalPlayer.CustomProperties);
                 },
                 () =>
                 {

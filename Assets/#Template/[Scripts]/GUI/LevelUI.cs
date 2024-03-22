@@ -1,5 +1,6 @@
 using DancingLineFanmade.Level;
 using DG.Tweening;
+using Photon.Pun;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
@@ -99,6 +100,11 @@ namespace DancingLineFanmade.UI
 
         public void RevivePlayer()
         {
+            // 减分
+            if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("MinusedScore"))
+                PhotonNetwork.LocalPlayer.CustomProperties["MinusedScore"] = int.Parse(PhotonNetwork.LocalPlayer.CustomProperties["MinusedScore"].ToString()) + 50;
+            else PhotonNetwork.LocalPlayer.CustomProperties.Add("MinusedScore", 50);
+
             foreach (Button b in buttonsRevive) b.interactable = false;
             player.RevivePlayer(player.checkpoints[player.checkpoints.Count - 1]);
         }

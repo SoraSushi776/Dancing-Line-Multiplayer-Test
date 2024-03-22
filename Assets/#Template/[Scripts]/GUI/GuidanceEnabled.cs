@@ -1,3 +1,4 @@
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -36,6 +37,12 @@ namespace DancingLineFanmade.Guidance
         {
             enabled = !enabled;
             SetGuidance(enabled);
+
+            // 引导线80%
+            if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Guidence"))
+                PhotonNetwork.LocalPlayer.CustomProperties["Guidence"] = enabled;
+            else
+                PhotonNetwork.LocalPlayer.CustomProperties.Add("Guidence", enabled);
         }
 
         private void SetGuidance(bool enabled)

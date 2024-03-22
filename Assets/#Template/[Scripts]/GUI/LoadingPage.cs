@@ -1,3 +1,4 @@
+using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -42,8 +43,41 @@ namespace DancingLineFanmade.UI
             Fade(1f, 0.4f).OnComplete(() =>
             {
                 operation = SceneManager.LoadSceneAsync(sceneName);
-                if (operation.isDone) operation = null;
+
+                if (operation == null)
+                {
+                    Debug.LogError("Scene not found: " + sceneName);
+                    return;
+                }
+
+                if (operation.isDone)
+                {
+                    Debug.LogError("Scene already loaded: " + sceneName);
+                    return;
+                }
+
+                StartCoroutine(LoadScene(sceneName));
             });
+        }
+
+        IEnumerator LoadScene(string sceneName)
+        {
+            AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName);
+            asyncOperation.allowSceneActivation = false;
+
+            while (!asyncOperation.isDone)
+            {
+                if (asyncOperation.progress >= 0.9f)
+                {
+                    asyncOperation.allowSceneActivation = true;
+                    Fade(0f, 0.4f);
+                    yield break;
+                }
+
+                yield return null;
+            }
+
+
         }
     }
 }

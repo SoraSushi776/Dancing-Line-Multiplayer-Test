@@ -36,19 +36,19 @@ namespace DancingLineFanmade.UI
             switch (id)
             {
                 case 0:
-                    text.text = "µÍ";
+                    text.text = "ä½Ž";
 #if UNITY_STANDALONE || UNITY_IOS || UNITY_EDITOR
                     QualitySettings.shadows = ShadowQuality.Disable;
 #endif
                     break;
                 case 1:
-                    text.text = "ÖÐ";
+                    text.text = "ä¸­";
 #if UNITY_STANDALONE || UNITY_IOS || UNITY_EDITOR
                     QualitySettings.shadows = ShadowQuality.Disable;
 #endif
                     break;
                 case 2:
-                    text.text = "¸ß";
+                    text.text = "é«˜";
 #if UNITY_STANDALONE || UNITY_IOS || UNITY_EDITOR
                     QualitySettings.shadows = ShadowQuality.All;
 #endif

@@ -19,6 +19,9 @@ public class PlayerDash : MonoBehaviour
     internal int score;
     internal string grade;
 
+    internal int lastScore;
+
+
     private void Start()
     {
         // 初始化
@@ -30,6 +33,8 @@ public class PlayerDash : MonoBehaviour
             player.CustomProperties.Add("Score", 0);
         if (player.CustomProperties.ContainsKey("Grade") == false)
             player.CustomProperties.Add("Grade", "F");
+        if (player.CustomProperties.ContainsKey("MinusedScore") == false)
+            player.CustomProperties.Add("MinusedScore", 0);
 
     }
     private void Update()
@@ -39,15 +44,22 @@ public class PlayerDash : MonoBehaviour
         score = int.Parse(player.CustomProperties["Score"].ToString());
         grade = player.CustomProperties["Grade"].ToString();
 
-        float ColorR = player.CustomProperties["ColorR"].ToString() == "" ? 1 : float.Parse(player.CustomProperties["ColorR"].ToString());
-        float ColorG = player.CustomProperties["ColorG"].ToString() == "" ? 1 : float.Parse(player.CustomProperties["ColorG"].ToString());
-        float ColorB = player.CustomProperties["ColorB"].ToString() == "" ? 1 : float.Parse(player.CustomProperties["ColorB"].ToString());
+        // 检查玩家颜色
+        if (player.CustomProperties.ContainsKey("ColorR") && player.CustomProperties.ContainsKey("ColorG") && player.CustomProperties.ContainsKey("ColorB"))
+        {
+            GetComponent<Image>().color = new Color((int)player.CustomProperties["ColorR"] / 255f, (int)player.CustomProperties["ColorG"] / 255f, (int)player.CustomProperties["ColorB"] / 255f, 0.5f);
+        }
 
-        GetComponent<Image>().color = new Color(ColorR, ColorG, ColorB, 0.5f);
+        gemCountShow.text = $"{gemCount} / 10";
 
-        gemCountShow.text = $"{gemCount}";
         percentageShow.text = $"{percentage}%";
-        scoreShow.text = $"{score}";
+
         gradeShow.text = grade;
+
+        if (score != lastScore)
+        {
+            scoreShow.text = score.ToString();
+            lastScore = score;
+        }
     }
 }

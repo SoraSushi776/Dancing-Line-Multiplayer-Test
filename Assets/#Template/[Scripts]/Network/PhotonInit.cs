@@ -5,6 +5,7 @@ using DG.Tweening;
 
 using Photon.Pun;
 using Photon.Realtime;
+
 using System;
 using System.Collections;
 using ExitGames.Client.Photon;
@@ -44,47 +45,62 @@ public class PhotonInit : MonoBehaviourPunCallbacks
     internal Vector3 roomListPanelPosition { get; private set; }
     internal Vector3 roomJoinPanelPosition { get; private set; }
     internal bool buttonCanClick = true;
+    internal bool canEnterGame = false;
 
 
     void Start()
     {
-        // 显示登录面板
-        loginPanel.SetActive(true);
-        loginPanel.GetComponent<CanvasGroup>().alpha = 1;
-        loginPanel.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        // 设置帧数
+        Application.targetFrameRate = 60;
+
+        // 初始化
         loginPanelPosition = loginPanel.transform.localPosition;
-
-        roomPanel.SetActive(false);
-        roomPanel.GetComponent<CanvasGroup>().alpha = 0;
-        roomPanel.transform.localRotation = Quaternion.Euler(0, 0, 5);
         roomPanelPosition = roomPanel.transform.localPosition;
-        roomPanel.transform.localPosition = new Vector3(roomPanelPosition.x, roomPanelPosition.y - 150, roomPanelPosition.z);
-
-        createRoomPanel.SetActive(false);
-        createRoomPanel.GetComponent<CanvasGroup>().alpha = 0;
-        createRoomPanel.transform.localRotation = Quaternion.Euler(0, 0, 5);
         createRoomPanelPosition = createRoomPanel.transform.localPosition;
-        createRoomPanel.transform.localPosition = new Vector3(createRoomPanelPosition.x, createRoomPanelPosition.y - 150, createRoomPanelPosition.z);
-
-        roomListPanel.SetActive(false);
-        roomListPanel.GetComponent<CanvasGroup>().alpha = 0;
-        roomListPanel.transform.localRotation = Quaternion.Euler(0, 0, 5);
         roomListPanelPosition = roomListPanel.transform.localPosition;
-        roomListPanel.transform.localPosition = new Vector3(roomListPanelPosition.x, roomListPanelPosition.y - 150, roomListPanelPosition.z);
 
-        roomJoinPanel.SetActive(false);
-        roomJoinPanel.GetComponent<CanvasGroup>().alpha = 0;
-        roomJoinPanelPosition = roomJoinPanel.transform.localPosition;
-        roomJoinPanel.transform.localPosition = new Vector3(roomJoinPanelPosition.x, roomJoinPanelPosition.y - 500, roomJoinPanelPosition.z);
+        // 检查是否已经连接到了房间
+        if (PhotonNetwork.InRoom)
+        {
+            // 取消准备
+            if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Ready"))
+            {
+                PhotonNetwork.LocalPlayer.CustomProperties["Ready"] = false;
+            }
 
-        blackMask.gameObject.SetActive(false);
-        blackMask.color = new Color(0, 0, 0, 0);
-        userNameShow.text = "";
+            // 取消引导线记录
+            if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Guidence"))
+            {
+                PhotonNetwork.LocalPlayer.CustomProperties["Guidence"] = false;
+            }
 
-        // 连接状态
-        statusShow.text = statusText.On_WAITING;
+            // 切换面板
+            ShowPanel(roomPanel, roomPanelPosition);
+            HidePanel(roomListPanel, roomListPanelPosition);
+            HidePanel(createRoomPanel, createRoomPanelPosition);
+            HidePanel(loginPanel, loginPanelPosition);
 
-        Debug.Log("准备就绪");
+            canEnterGame = false;
+            // 更新连接状态、加入房间
+            OnJoinedRoom();
+        }
+        else
+        {
+            // 切换面板
+            ShowPanel(loginPanel, loginPanelPosition);
+            HidePanel(roomListPanel, roomListPanelPosition);
+            HidePanel(createRoomPanel, createRoomPanelPosition);
+            HidePanel(roomPanel, roomPanelPosition);
+
+            blackMask.gameObject.SetActive(false);
+            blackMask.color = new Color(0, 0, 0, 0);
+            userNameShow.text = "";
+
+            // 连接状态
+            statusShow.text = statusText.On_WAITING;
+
+            Debug.Log("准备就绪");
+        }
     }
 
     void Update()
@@ -122,9 +138,7 @@ public class PhotonInit : MonoBehaviourPunCallbacks
         statusShow.text = statusText.On_CONNECTING_TO_MASTER;
 
         // 隐藏登录面板
-        loginPanel.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 5), 0.5f).SetEase(Ease.OutCirc);
-        loginPanel.transform.DOLocalMoveY(loginPanelPosition.y - 150, 0.5f).SetEase(Ease.OutCirc);
-        loginPanel.GetComponent<CanvasGroup>().DOFade(0, 0.5f).SetEase(Ease.OutCirc).OnComplete(() => loginPanel.SetActive(false));
+        HidePanel(loginPanel, loginPanelPosition);
 
         buttonCanClick = true;
     }
@@ -144,19 +158,11 @@ public class PhotonInit : MonoBehaviourPunCallbacks
         // 更新连接状态
         statusShow.text = statusText.On_WAITING;
 
-        // 隐藏房间面板
-        roomListPanel.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 5), 0.5f).SetEase(Ease.OutCirc);
-        roomListPanel.transform.DOLocalMoveY(roomListPanelPosition.y - 150, 0.5f).SetEase(Ease.OutCirc);
-        roomListPanel.GetComponent<CanvasGroup>().DOFade(0, 0.5f).SetEase(Ease.OutCirc).OnComplete(() => roomListPanel.SetActive(false));
-
-        // 显示登录面板
-        loginPanel.SetActive(true);
-        loginPanel.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 0), 0.5f).SetEase(Ease.OutCirc);
-        loginPanel.transform.DOLocalMoveY(loginPanelPosition.y, 0.5f).SetEase(Ease.OutCirc);
-        loginPanel.GetComponent<CanvasGroup>().DOFade(1, 0.5f).SetEase(Ease.OutCirc);
+        // 切换面板
+        ShowPanel(loginPanel, loginPanelPosition);
+        HidePanel(roomListPanel, roomListPanelPosition);
 
         buttonCanClick = true;
-
     }
 
     // 显示创建房间面板
@@ -165,14 +171,10 @@ public class PhotonInit : MonoBehaviourPunCallbacks
         if (!buttonCanClick) return;
         buttonCanClick = false;
 
-        roomListPanel.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 5), 0.5f).SetEase(Ease.OutCirc);
-        roomListPanel.transform.DOLocalMoveY(roomPanelPosition.y - 150, 0.5f).SetEase(Ease.OutCirc);
-        roomListPanel.GetComponent<CanvasGroup>().DOFade(0, 0.5f).SetEase(Ease.OutCirc).OnComplete(() => roomPanel.SetActive(false));
+        ShowPanel(createRoomPanel, createRoomPanelPosition);
+        HidePanel(roomListPanel, roomListPanelPosition);
 
-        createRoomPanel.SetActive(true);
-        createRoomPanel.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 0), 0.5f).SetEase(Ease.OutCirc);
-        createRoomPanel.transform.DOLocalMoveY(createRoomPanelPosition.y, 0.5f).SetEase(Ease.OutCirc);
-        createRoomPanel.GetComponent<CanvasGroup>().DOFade(1, 0.5f).SetEase(Ease.OutCirc).onComplete = () => buttonCanClick = true;
+        buttonCanClick = true;
     }
 
     // 创建并加入房间
@@ -182,9 +184,7 @@ public class PhotonInit : MonoBehaviourPunCallbacks
         buttonCanClick = false;
 
         // 隐藏创建房间面板
-        createRoomPanel.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 5), 0.5f).SetEase(Ease.OutCirc);
-        createRoomPanel.transform.DOLocalMoveY(createRoomPanelPosition.y - 150, 0.5f).SetEase(Ease.OutCirc);
-        createRoomPanel.GetComponent<CanvasGroup>().DOFade(0, 0.5f).SetEase(Ease.OutCirc).OnComplete(() => createRoomPanel.SetActive(false));
+        HidePanel(createRoomPanel, createRoomPanelPosition);
 
         // 校验房间名
         if (roomNameInput.text.Length > 0)
@@ -197,6 +197,8 @@ public class PhotonInit : MonoBehaviourPunCallbacks
                 IsOpen = true
 
             };
+
+            // 创建房间
             PhotonNetwork.CreateRoom(roomNameInput.text, roomOptions);
         }
         else
@@ -208,6 +210,8 @@ public class PhotonInit : MonoBehaviourPunCallbacks
                 IsVisible = isPrivateToggle.isOn,
                 IsOpen = true,
             };
+
+            // 创建房间
             PhotonNetwork.CreateRoom(roomNameInput.text, roomOptions);
         }
 
@@ -220,21 +224,18 @@ public class PhotonInit : MonoBehaviourPunCallbacks
     // 显示加入房间面板
     public void ShowJoinRoomPanel()
     {
-        roomJoinPanel.SetActive(true);
         blackMask.gameObject.SetActive(true);
         blackMask.DOFade(0.5f, 0.5f).SetEase(Ease.OutCirc);
-        roomListPanel.transform.DOScale(new Vector3(0.8f, 0.8f, 0.8f), 0.5f).SetEase(Ease.OutCirc);
-        roomJoinPanel.transform.DOLocalMoveY(roomJoinPanelPosition.y, 0.5f).SetEase(Ease.OutCirc);
-        roomJoinPanel.GetComponent<CanvasGroup>().DOFade(1, 0.5f).SetEase(Ease.OutCirc);
+
+        ShowPanel(roomJoinPanel, roomJoinPanelPosition);
     }
 
     // 隐藏加入面板
     public void HideJoinRoomPanel()
     {
         blackMask.DOFade(0, 0.5f).SetEase(Ease.OutCirc).onComplete = () => blackMask.gameObject.SetActive(false);
-        roomListPanel.transform.DOScale(new Vector3(1, 1, 1), 0.5f).SetEase(Ease.OutCirc);
-        roomJoinPanel.transform.DOLocalMoveY(roomJoinPanelPosition.y - 500, 0.5f).SetEase(Ease.OutCirc);
-        roomJoinPanel.GetComponent<CanvasGroup>().DOFade(0, 0.5f).SetEase(Ease.OutCirc).OnComplete(() => roomJoinPanel.SetActive(false));
+
+        HidePanel(roomJoinPanel, roomJoinPanelPosition);
     }
 
     // 手动输入房间名加入
@@ -247,9 +248,7 @@ public class PhotonInit : MonoBehaviourPunCallbacks
             HideJoinRoomPanel();
 
             // 隐藏房间面板
-            roomListPanel.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 5), 0.5f).SetEase(Ease.OutCirc);
-            roomListPanel.transform.DOLocalMoveY(roomListPanelPosition.y - 150, 0.5f).SetEase(Ease.OutCirc);
-            roomListPanel.GetComponent<CanvasGroup>().DOFade(0, 0.5f).SetEase(Ease.OutCirc).OnComplete(() => roomListPanel.SetActive(false));
+            HidePanel(roomPanel, roomPanelPosition);
         }
         else
         {
@@ -299,16 +298,9 @@ public class PhotonInit : MonoBehaviourPunCallbacks
             }
         }
 
-        // 隐藏房间面板
-        roomPanel.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 5), 0.5f).SetEase(Ease.OutCirc);
-        roomPanel.transform.DOLocalMoveY(roomPanelPosition.y - 150, 0.5f).SetEase(Ease.OutCirc);
-        roomPanel.GetComponent<CanvasGroup>().DOFade(0, 0.5f).SetEase(Ease.OutCirc).OnComplete(() => roomPanel.SetActive(false));
-
-        // 显示房间面板
-        roomListPanel.SetActive(true);
-        roomListPanel.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 0), 0.5f).SetEase(Ease.OutCirc);
-        roomListPanel.transform.DOLocalMoveY(roomPanelPosition.y, 0.5f).SetEase(Ease.OutCirc);
-        roomListPanel.GetComponent<CanvasGroup>().DOFade(1, 0.5f).SetEase(Ease.OutCirc);
+        // 切换面板
+        ShowPanel(roomListPanel, roomListPanelPosition);
+        HidePanel(roomPanel, roomPanelPosition);
     }
 
     // 准备
@@ -338,185 +330,6 @@ public class PhotonInit : MonoBehaviourPunCallbacks
         blackMask.DOFade(1, 0.5f).SetEase(Ease.OutCirc);
 
         StartGame();
-    }
-
-    // 加入房间成功
-    public override void OnJoinedRoom()
-    {
-        // 更新连接状态
-        statusShow.text = statusText.On_JOINED;
-
-        // 显示房间信息
-        roomNameShow.text = PhotonNetwork.CurrentRoom.Name;
-
-        // 添加玩家信息
-        var thePlayerHash = PhotonNetwork.LocalPlayer.CustomProperties;
-
-        switch (SystemInfo.operatingSystemFamily)
-        {
-            case OperatingSystemFamily.Windows:
-                thePlayerHash.Add("OS", "Windows");
-                break;
-            case OperatingSystemFamily.MacOSX:
-                thePlayerHash.Add("OS", "Apple");
-                break;
-            case OperatingSystemFamily.Linux:
-                thePlayerHash.Add("OS", "Linux");
-                break;
-            case OperatingSystemFamily.Other:
-                thePlayerHash.Add("OS", "Android");
-                break;
-        }
-
-        if (thePlayerHash.ContainsKey("ColorR") || thePlayerHash.ContainsKey("ColorG") || thePlayerHash.ContainsKey("ColorB"))
-        {
-            thePlayerHash.Remove("ColorR");
-            thePlayerHash.Remove("ColorG");
-            thePlayerHash.Remove("ColorB");
-        }
-
-        thePlayerHash.Add("ColorR", UnityEngine.Random.Range(0, 255));
-        thePlayerHash.Add("ColorG", UnityEngine.Random.Range(0, 255));
-        thePlayerHash.Add("ColorB", UnityEngine.Random.Range(0, 255));
-
-        PhotonNetwork.LocalPlayer.SetCustomProperties(thePlayerHash);
-
-        // 显示房间面板 
-        createRoomPanel.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 5), 0.5f).SetEase(Ease.OutCirc);
-        createRoomPanel.transform.DOLocalMoveY(createRoomPanelPosition.y - 150, 0.5f).SetEase(Ease.OutCirc);
-        createRoomPanel.GetComponent<CanvasGroup>().DOFade(0, 0.5f).SetEase(Ease.OutCirc).OnComplete(() => createRoomPanel.SetActive(false));
-
-        roomPanel.SetActive(true);
-        roomPanel.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 0), 0.5f).SetEase(Ease.OutCirc);
-        roomPanel.transform.DOLocalMoveY(roomPanelPosition.y, 0.5f).SetEase(Ease.OutCirc);
-        roomPanel.GetComponent<CanvasGroup>().DOFade(1, 0.5f).SetEase(Ease.OutCirc);
-
-        // 判断是否是房主
-        if (PhotonNetwork.IsMasterClient)
-        {
-            forceStart.SetActive(true);
-        }
-        else
-        {
-            forceStart.SetActive(false);
-        }
-
-        // 更新玩家列表
-        Invoke("UpdatePlayerList", 0.5f);
-    }
-
-    // 有玩家加入房间
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        // 更新玩家列表
-        Invoke("UpdatePlayerList", 0.5f);
-    }
-
-    // 有玩家离开房间
-    public override void OnPlayerLeftRoom(Player otherPlayer)
-    {
-        // 删除那个玩家的信息
-        otherPlayer.CustomProperties.Clear();
-
-        // 更新玩家列表
-        Invoke("UpdatePlayerList", 0.5f);
-    }
-
-    // 连接服务器成功
-    public override void OnConnectedToMaster()
-    {
-        PhotonNetwork.LocalPlayer.NickName = userName;
-
-        // 更新连接状态
-        statusShow.text = statusText.On_CONNECTED_TO_MASTER;
-        userNameShow.text = $"登录为：{userName}";
-
-        // 显示房间面板
-        roomListPanel.SetActive(true);
-        roomListPanel.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 0), 0.5f).SetEase(Ease.OutCirc);
-        roomListPanel.transform.DOLocalMoveY(roomPanelPosition.y, 0.5f).SetEase(Ease.OutCirc);
-        roomListPanel.GetComponent<CanvasGroup>().DOFade(1, 0.5f).SetEase(Ease.OutCirc);
-
-        // 加入大厅
-        PhotonNetwork.JoinLobby();
-
-        buttonCanClick = true;
-    }
-
-    // 更新房间列表
-    public override void OnRoomListUpdate(System.Collections.Generic.List<RoomInfo> roomList)
-    {
-        // 清空房间列表
-        foreach (Transform child in roomContent.transform)
-        {
-            Destroy(child.gameObject);
-        }
-
-        // 更新房间列表
-        foreach (RoomInfo room in roomList)
-        {
-            if (room.PlayerCount == 0 && room.RemovedFromList) continue;
-            GameObject roomObj = Instantiate(Resources.Load("Prefabs/Room") as GameObject, roomContent.transform);
-            roomObj.GetComponent<RoomObj>().SetRoomInfo(room.Name, room.PlayerCount, room.MaxPlayers, roomListPanel, roomListPanelPosition);
-        }
-    }
-
-    // 连接服务器失败
-    public override void OnDisconnected(DisconnectCause cause)
-    {
-        // 更新连接状态
-        statusShow.text = statusText.On_CONNECTION_FAILED + "\n" + cause.ToString();
-
-        // 隐藏所有面板
-        roomListPanel.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 5), 0.5f).SetEase(Ease.OutCirc);
-        roomListPanel.transform.DOLocalMoveY(roomListPanelPosition.y - 150, 0.5f).SetEase(Ease.OutCirc);
-        roomListPanel.GetComponent<CanvasGroup>().DOFade(0, 0.5f).SetEase(Ease.OutCirc).OnComplete(() => roomListPanel.SetActive(false));
-
-        createRoomPanel.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 5), 0.5f).SetEase(Ease.OutCirc);
-        createRoomPanel.transform.DOLocalMoveY(createRoomPanelPosition.y - 150, 0.5f).SetEase(Ease.OutCirc);
-        createRoomPanel.GetComponent<CanvasGroup>().DOFade(0, 0.5f).SetEase(Ease.OutCirc).OnComplete(() => createRoomPanel.SetActive(false));
-
-        roomPanel.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 5), 0.5f).SetEase(Ease.OutCirc);
-        roomPanel.transform.DOLocalMoveY(roomPanelPosition.y - 150, 0.5f).SetEase(Ease.OutCirc);
-        roomPanel.GetComponent<CanvasGroup>().DOFade(0, 0.5f).SetEase(Ease.OutCirc).OnComplete(() => roomPanel.SetActive(false));
-
-        // 显示登录面板
-        loginPanel.SetActive(true);
-        loginPanel.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 0), 0.5f).SetEase(Ease.OutCirc);
-        loginPanel.transform.DOLocalMoveY(loginPanelPosition.y, 0.5f).SetEase(Ease.OutCirc);
-        loginPanel.GetComponent<CanvasGroup>().DOFade(1, 0.5f).SetEase(Ease.OutCirc);
-    }
-
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
-    {
-        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
-
-        // 更新玩家列表
-        Invoke("UpdatePlayerList", 0.5f);
-
-        // 如果全员准备，开始游戏
-        bool allReady = true;
-        foreach (Player player in PhotonNetwork.PlayerList)
-        {
-            if (player.CustomProperties.ContainsKey("Ready"))
-            {
-                if (!(bool)player.CustomProperties["Ready"])
-                {
-                    allReady = false;
-                }
-            }
-            else
-            {
-                allReady = false;
-            }
-        }
-
-        if (allReady && PhotonNetwork.PlayerList.Length > 1)
-        {
-            blackMask.gameObject.SetActive(true);
-            blackMask.DOFade(1, 0.5f).SetEase(Ease.OutCirc);
-            Invoke("StartGame", 1);
-        }
     }
 
     // 开始游戏
@@ -608,17 +421,206 @@ public class PhotonInit : MonoBehaviourPunCallbacks
 
     }
 
+    // 显示面板
+    private void ShowPanel(GameObject panel, Vector3 panelPosition)
+    {
+        panel.SetActive(true);
+        panel.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 0), 0.5f).SetEase(Ease.OutCirc);
+        panel.transform.DOLocalMoveY(panelPosition.y, 0.5f).SetEase(Ease.OutCirc);
+        panel.GetComponent<CanvasGroup>().DOFade(1, 0.5f).SetEase(Ease.OutCirc);
+    }
+
+    // 隐藏面板
+    private void HidePanel(GameObject panel, Vector3 panelPosition)
+    {
+        panel.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 5), 0.5f).SetEase(Ease.OutCirc);
+        panel.transform.DOLocalMoveY(panelPosition.y - 150, 0.5f).SetEase(Ease.OutCirc);
+        panel.GetComponent<CanvasGroup>().DOFade(0, 0.5f).SetEase(Ease.OutCirc).OnComplete(() => panel.SetActive(false));
+    }
+
+    // 加入房间成功
+    public override void OnJoinedRoom()
+    {
+        // 更新连接状态
+        statusShow.text = statusText.On_JOINED;
+
+        // 显示房间信息
+        roomNameShow.text = PhotonNetwork.CurrentRoom.Name;
+
+        // 添加玩家信息
+        var thePlayerHash = PhotonNetwork.LocalPlayer.CustomProperties;
+
+        if (thePlayerHash.ContainsKey("OS"))
+        {
+            thePlayerHash.Remove("OS");
+        }
+        switch (SystemInfo.operatingSystemFamily)
+        {
+            case OperatingSystemFamily.Windows:
+                thePlayerHash.Add("OS", "Windows");
+                break;
+            case OperatingSystemFamily.MacOSX:
+                thePlayerHash.Add("OS", "Apple");
+                break;
+            case OperatingSystemFamily.Linux:
+                thePlayerHash.Add("OS", "Linux");
+                break;
+            case OperatingSystemFamily.Other:
+                thePlayerHash.Add("OS", "Android");
+                break;
+        }
+
+        if (thePlayerHash.ContainsKey("ColorR") || thePlayerHash.ContainsKey("ColorG") || thePlayerHash.ContainsKey("ColorB"))
+        {
+            thePlayerHash.Remove("ColorR");
+            thePlayerHash.Remove("ColorG");
+            thePlayerHash.Remove("ColorB");
+        }
+
+        thePlayerHash.Add("ColorR", UnityEngine.Random.Range(0, 255));
+        thePlayerHash.Add("ColorG", UnityEngine.Random.Range(0, 255));
+        thePlayerHash.Add("ColorB", UnityEngine.Random.Range(0, 255));
+
+        PhotonNetwork.LocalPlayer.SetCustomProperties(thePlayerHash);
+
+        // 切换面板
+        ShowPanel(roomPanel, roomPanelPosition);
+        HidePanel(roomListPanel, roomListPanelPosition);
+
+        // 判断是否是房主
+        if (PhotonNetwork.IsMasterClient)
+        {
+            forceStart.SetActive(true);
+        }
+        else
+        {
+            forceStart.SetActive(false);
+        }
+
+        // 更新玩家列表
+        Invoke("UpdatePlayerList", 0.5f);
+    }
+
+    // 有玩家加入房间
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        // 更新玩家列表
+        Invoke("UpdatePlayerList", 0.5f);
+    }
+
+    // 有玩家离开房间
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        // 删除那个玩家的信息
+        otherPlayer.CustomProperties.Clear();
+
+        // 更新玩家列表
+        Invoke("UpdatePlayerList", 0.5f);
+    }
+
+    // 连接服务器成功
+    public override void OnConnectedToMaster()
+    {
+        PhotonNetwork.LocalPlayer.NickName = userName;
+
+        // 更新连接状态
+        statusShow.text = statusText.On_CONNECTED_TO_MASTER;
+        userNameShow.text = $"登录为：{userName}";
+
+        // 显示房间面板
+        ShowPanel(roomListPanel, roomListPanelPosition);
+
+        // 加入大厅
+        PhotonNetwork.JoinLobby();
+
+        buttonCanClick = true;
+    }
+
+    // 更新房间列表
+    public override void OnRoomListUpdate(System.Collections.Generic.List<RoomInfo> roomList)
+    {
+        // 清空房间列表
+        foreach (Transform child in roomContent.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        // 更新房间列表
+        foreach (RoomInfo room in roomList)
+        {
+            if (room.PlayerCount == 0 && room.RemovedFromList) continue;
+            GameObject roomObj = Instantiate(Resources.Load("Prefabs/Room") as GameObject, roomContent.transform);
+            roomObj.GetComponent<RoomObj>().SetRoomInfo(room.Name, room.PlayerCount, room.MaxPlayers, roomListPanel, roomListPanelPosition);
+        }
+    }
+
+    // 连接服务器失败
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        // 更新连接状态
+        statusShow.text = statusText.On_CONNECTION_FAILED + "\n" + cause.ToString();
+
+        // 切换面板
+        ShowPanel(loginPanel, loginPanelPosition);
+        HidePanel(roomListPanel, roomListPanelPosition);
+        HidePanel(createRoomPanel, createRoomPanelPosition);
+        HidePanel(roomPanel, roomPanelPosition);
+
+        Debug.LogError("连接已丢失：" + cause.ToString());
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
+
+        // 更新玩家列表
+        Invoke("UpdatePlayerList", 0.5f);
+
+        // 如果全员准备，开始游戏
+        bool allReady = true;
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            if (player.CustomProperties.ContainsKey("Ready"))
+            {
+                if (!(bool)player.CustomProperties["Ready"])
+                {
+                    allReady = false;
+                }
+            }
+            else
+            {
+                allReady = false;
+            }
+        }
+
+        if (allReady && PhotonNetwork.PlayerList.Length > 1)
+        {
+            blackMask.gameObject.SetActive(true);
+            blackMask.DOFade(1, 0.5f).SetEase(Ease.OutCirc);
+            Invoke("StartGame", 1);
+        }
+    }
+
+
+
     // 加入房间失败
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
         // 更新连接状态
         statusShow.text = statusText.On_JOIN_FAILED + "\n" + message;
 
-        // 显示房间面板
-        roomListPanel.SetActive(true);
-        roomListPanel.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 0), 0.5f).SetEase(Ease.OutCirc);
-        roomListPanel.transform.DOLocalMoveY(roomPanelPosition.y, 0.5f).SetEase(Ease.OutCirc);
-        roomListPanel.GetComponent<CanvasGroup>().DOFade(1, 0.5f).SetEase(Ease.OutCirc);
+        // 切换面板
+        ShowPanel(roomListPanel, roomListPanelPosition);
+        HidePanel(roomJoinPanel, roomJoinPanelPosition);
+        HidePanel(roomPanel, roomPanelPosition);
+
+        Debug.LogError("加入房间失败：" + message);
+    }
+
+    // 聊天
+    public void DebugReturn(DebugLevel level, string message)
+    {
+        return;
     }
 
     // 刷新LayoutGroup
@@ -643,6 +645,8 @@ public class PhotonInit : MonoBehaviourPunCallbacks
             obj.GetComponent<GridLayoutGroup>().enabled = true;
         }
     }
+
+    // 状态文本
     [Serializable]
     public class StatusText
     {
